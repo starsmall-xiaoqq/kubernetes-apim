@@ -25,7 +25,7 @@ wso2:
       # The configuration should be set to be 'true' if a MySQL database should be spawned as a pod within the cluster
       mysql: true
       # Enable NFS dynamic provisioner for Kubernetes
-      nfsServerProvisioner: true
+      nfsServerProvisioner: false
 
     # Persisted and shared runtime artifacts for API Manager
     # See official documentation (from https://apim.docs.wso2.com/en/latest/install-and-setup/setup/reference/common-runtime-and-configuration-artifacts/#persistent-runtime-artifacts)
@@ -33,7 +33,7 @@ wso2:
       # Kubernetes Storage Class to be used to dynamically provision the relevant Persistent Volumes
       # Only persistent storage solutions supporting ReadWriteMany access mode are applicable (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes)
       # Defaults to Kubernetes Storage Class generated using the NFS Server Provisioner (https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner)
-      storageClass: &storage_class "nfs"
+      storageClass: &storage_class "aws-efs"
 
       # Define capacities for persistent runtime artifact directories which are shared between instances of the relevant API Manager profile
       sharedArtifacts:
@@ -77,7 +77,7 @@ wso2:
       # API Manager's Gateway specific configurations
       gateway:
         # Hostname for Gateway profile
-        hostname: "gateway.am.wso2.com"
+        hostname: "gateway.am.karanashi.io"
 
         # Indicates whether the container is running
         livenessProbe:
@@ -93,7 +93,7 @@ wso2:
           periodSeconds: 10
 
         # Number of deployment replicas
-        replicas: 2
+        replicas: 1
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:
@@ -124,7 +124,7 @@ wso2:
           periodSeconds: 10
 
         # Number of deployment replicas
-        replicas: 2
+        replicas: 1
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:
@@ -142,7 +142,7 @@ wso2:
 
       pubDevPortalTM:
         # Hostname for Publisher-DevPortal deployment
-        hostname: "am.wso2.com"
+        hostname: "am.karanashi.io"
 
         # Indicates whether the container is running
         livenessProbe:
@@ -176,7 +176,7 @@ wso2:
     analytics:
       dashboard:
         # Hostname for API Manager Analytics Dashboard
-        hostname: "analytics.am.wso2.com"
+        hostname: "analytics.am.karanashi.io"
 
         # Container image configurations
         # If a custom image must be used, uncomment 'dockerRegistry' and provide its value
@@ -187,7 +187,7 @@ wso2:
         imagePullPolicy: Always
 
         # Number of deployment replicas
-        replicas: 1
+        replicas: 0
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:
@@ -279,4 +279,4 @@ kubernetes:
 mysql-am:
   mysql:
     persistence:
-      storageClass: *storage_class
+      storageClass: ""   #*storage_class
