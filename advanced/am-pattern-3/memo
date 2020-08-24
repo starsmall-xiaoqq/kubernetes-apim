@@ -1,0 +1,5 @@
+helm install  wso2test . --version 3.1.0-3 --namespace wso2apim
+
+helm upgrade  wso2test . --version 3.1.0-3 --namespace=wso2apim
+
+helm uninstall wso2test -n wso2apim

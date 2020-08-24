@@ -34,7 +34,7 @@ wso2:
       # Only persistent storage solutions supporting ReadWriteMany access mode are applicable (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes)
       # Defaults to Kubernetes Storage Class generated using the NFS Server Provisioner (https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner)
       storageClass: &storage_class "aws-efs"
-
+      storageClass1: "aws-efs1"
       # Define capacities for persistent runtime artifact directories which are shared between instances of the relevant API Manager profile
       sharedArtifacts:
         capacity:

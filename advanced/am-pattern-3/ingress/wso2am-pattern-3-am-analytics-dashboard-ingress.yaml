@@ -12,15 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: PersistentVolumeClaim
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: {{ template "am-pattern-3.resource.prefix" . }}-am-tm-shared-executionplans-volume-claim
+  name: {{ template "am-pattern-3.resource.prefix" . }}-am-analytics-dashboard-ingress
   namespace : {{ .Release.Namespace }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
-  accessModes:
-  - ReadWriteMany
-  resources:
-    requests:
-      storage: {{ .Values.wso2.deployment.persistentRuntimeArtifacts.sharedArtifacts.capacity.executionPlans }}
-  storageClassName: {{ .Values.wso2.deployment.persistentRuntimeArtifacts.storageClass1 }}
+  tls:
+  - hosts:
+    - {{ .Values.wso2.deployment.analytics.dashboard.hostname }}
+  rules:
+  - host: {{ .Values.wso2.deployment.analytics.dashboard.hostname }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ template "am-pattern-3.resource.prefix" . }}-am-analytics-dashboard-service
+          servicePort: 9643
