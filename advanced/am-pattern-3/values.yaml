@@ -90,7 +90,8 @@ wso2:
       # API Manager's Gateway specific configurations
       gateway:
         # Hostname for Gateway profile
-        hostname: "gateway.am.karanashi.io"
+        #hostname: "gateway.am.karanashi.io"
+        hostname: "wso2am-pattern-3-am-gateway-lb.wso2apim.svc.cluster.local"
 
         # Number of deployment replicas
         replicas: 2
@@ -131,8 +132,8 @@ wso2:
       # API Manager's Publisher specific configurations
       publisher:
         # Hostname for Publisher profile
-        hostname: "publisher.am.karanashi.io"
-
+        #hostname: "publisher.am.karanashi.io"
+        hostname: "wso2am-pattern-3-am-publisher-lb.wso2apim.svc.cluster.local"
         # If the deployment configurations for the Publisher profile of WSO2 API Manager v3.1.0 (<WSO2AM>/repository/conf/deployment.toml),
         # add the customized configuration file under (wso2 -> deployment -> am -> publisher -> config -> deployment.toml)
       #        config:
@@ -142,8 +143,8 @@ wso2:
       # API Manager's DevPortal specific configurations
       devportal:
         # Hostname for DevPortal profile
-        hostname: "devportal.am.karanashi.io"
-
+        #hostname: "devportal.am.karanashi.io"
+        hostname: "wso2am-pattern-3-am-devportal-lb.wso2apim.svc.cluster.local"
         # If the deployment configurations for the DevPortal profile of WSO2 API Manager v3.1.0 (<WSO2AM>/repository/conf/deployment.toml),
         # add the customized configuration file under (wso2 -> deployment -> am -> devportal -> config -> deployment.toml)
       #        config:
@@ -161,8 +162,8 @@ wso2:
     analytics:
       dashboard:
         # Hostname for API Manager Analytics Dashboard
-        hostname: "analytics.am.karanashi.io"
-
+        #hostname: "analytics.am.karanashi.io"
+        hostname: "wso2am-pattern-3-am-analytics-dashboard-lb.wso2apim.svc.cluster.local"
         # Container image configurations
         # If a custom image must be used, uncomment 'dockerRegistry' and provide its value.
         # dockerRegistry: ""
