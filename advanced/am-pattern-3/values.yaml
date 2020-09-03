@@ -23,7 +23,7 @@ wso2:
   deployment:
     dependencies:
       # The configuration should be set to be 'true' if a MySQL database should be spawned as a pod within the cluster
-      mysql: true
+      mysql: false
       # Enable NFS dynamic provisioner for Kubernetes
       nfsServerProvisioner: false
 
