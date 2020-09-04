@@ -125,3 +125,10 @@ spec:
       - name: wso2am-gateway-conf
         configMap:
           name: {{ template "am-pattern-3.resource.prefix" . }}-am-gateway-conf
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: node
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              deployment: {{ template "am-pattern-3.resource.prefix" . }}-am-gateway

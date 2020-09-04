@@ -94,7 +94,7 @@ wso2:
         hostname: "wso2am-pattern-3-am-gateway-lb.wso2apim.svc.cluster.local"
 
         # Number of deployment replicas
-        replicas: 2
+        replicas: 7
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:
@@ -113,7 +113,7 @@ wso2:
       # API Manager's Key Manager specific configurations
       km:
         # Number of deployment replicas
-        replicas: 2
+        replicas: 4
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:
@@ -173,7 +173,7 @@ wso2:
         imagePullPolicy: Always
 
         # Number of deployment replicas
-        replicas: 1
+        replicas: 0
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:

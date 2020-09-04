@@ -109,3 +109,10 @@ spec:
       - name: wso2am-km-conf
         configMap:
           name: {{ template "am-pattern-3.resource.prefix" . }}-am-km-conf
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: node
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              deployment: {{ template "am-pattern-3.resource.prefix" . }}-km
