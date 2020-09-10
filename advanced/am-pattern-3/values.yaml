@@ -30,11 +30,11 @@ wso2:
     # Persisted and shared runtime artifacts for API Manager
     # See official documentation (from https://apim.docs.wso2.com/en/latest/install-and-setup/setup/reference/common-runtime-and-configuration-artifacts/#persistent-runtime-artifacts)
     persistentRuntimeArtifacts:
+      server: "fs-24081505.efs.ap-northeast-1.amazonaws.com"
       # Kubernetes Storage Class to be used to dynamically provision the relevant Persistent Volumes
       # Only persistent storage solutions supporting ReadWriteMany access mode are applicable (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes)
       # Defaults to Kubernetes Storage Class generated using the NFS Server Provisioner (https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner)
-      storageClass: &storage_class "aws-efs"
-      storageClass1: "aws-efs1"
+      storageClass: &storage_class "nfs"
       # Define capacities for persistent runtime artifact directories which are shared between instances of the relevant API Manager profile
       sharedArtifacts:
         capacity:
@@ -56,6 +56,9 @@ wso2:
           solrIndexedData: 50M
 
     am:
+      #nfs server 
+      nfs: "fs-24081505.efs.ap-northeast-1.amazonaws.com"
+
       # Container image configurations
       # If a custom image must be used, uncomment 'dockerRegistry' and provide its value
       # dockerRegistry: ""
@@ -89,12 +92,15 @@ wso2:
 
       # API Manager's Gateway specific configurations
       gateway:
+        #the EFS for shared data
+        #nfs: "fs-e9dec3c8.efs.ap-northeast-1.amazonaws.com"
+        nfs: "fs-24081505.efs.ap-northeast-1.amazonaws.com"
         # Hostname for Gateway profile
         #hostname: "gateway.am.karanashi.io"
         hostname: "wso2am-pattern-3-am-gateway-lb.wso2apim.svc.cluster.local"
 
         # Number of deployment replicas
-        replicas: 7
+        replicas: 3
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:
@@ -113,7 +119,7 @@ wso2:
       # API Manager's Key Manager specific configurations
       km:
         # Number of deployment replicas
-        replicas: 4
+        replicas: 2
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:
@@ -153,6 +159,9 @@ wso2:
 
       # API Manager's Traffic Manager specific configurations
       tm:
+        #the EFS for shared data
+        nfs: "fs-82d5c8a3.efs.ap-northeast-1.amazonaws.com"
+
         # If the deployment configurations for the Traffic Manager profile of WSO2 API Manager v3.1.0 (<WSO2AM>/repository/conf/deployment.toml),
         # add the customized configuration file under (wso2 -> deployment -> am -> tm -> instanceOne -> config -> deployment.toml)
         config: ""
@@ -173,7 +182,7 @@ wso2:
         imagePullPolicy: Always
 
         # Number of deployment replicas
-        replicas: 0
+        replicas: 1
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:
@@ -264,4 +273,4 @@ kubernetes:
 mysql-am:
   mysql:
     persistence:
-      storageClass: "" #*storage_class
+      storageClass: *storage_class

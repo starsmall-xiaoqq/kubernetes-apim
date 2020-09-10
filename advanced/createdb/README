@@ -1,0 +1,11 @@
+
+1.Delete mysql-client
+  k delete pod mysql-client
+2.Create mysql client (wait to be successful)
+  k run --image=mysql:5.6 --restart=Never mysql-client -- bash -c "trap : TERM INT; sleep infinity & wait"
+3.copy files to mysql-client
+  k cp . mysql-client:/mysqlclient  
+4.Create DB
+   k exec  mysql-client -- mysqlclient/createdb.sh      
+
+

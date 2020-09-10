@@ -23,4 +23,30 @@ spec:
   resources:
     requests:
       storage: {{ .Values.wso2.deployment.persistentRuntimeArtifacts.sharedArtifacts.capacity.synapseConfigs }}
-  storageClassName: {{ .Values.wso2.deployment.persistentRuntimeArtifacts.storageClass }}
+  #storageClassName: {{ .Values.wso2.deployment.persistentRuntimeArtifacts.storageClass }}
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name:  {{ template "am-pattern-3.resource.prefix" . }}-am-gateway-shared-synapse-configs-volume-claim
+  # No namespace, PVs are global
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: {{ .Values.wso2.deployment.persistentRuntimeArtifacts.sharedArtifacts.capacity.synapseConfigs }}
+  mountOptions:
+  - rsize=1048576
+  - wsize=1048576
+  - hard
+  - timeo=600
+  - retrans=2
+  - noresvport
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /gateway
+    server: {{ .Values.wso2.deployment.am.nfs }}
+  claimRef:
+    name:  {{ template "am-pattern-3.resource.prefix" . }}-am-gateway-shared-synapse-configs-volume-claim
+    namespace: {{ .Release.Namespace }}

@@ -1,0 +1,1 @@
+CREATE USER IF NOT EXISTS wso2carbon IDENTIFIED BY 'wso2carbon';
