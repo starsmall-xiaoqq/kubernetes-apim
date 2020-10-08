@@ -23,7 +23,7 @@ spec:
   resources:
     requests:
       storage: {{ .Values.wso2.deployment.persistentRuntimeArtifacts.sharedArtifacts.capacity.executionPlans }}
-  #storageClassName: {{ .Values.wso2.deployment.persistentRuntimeArtifacts.storageClass }}
+  storageClassName: {{ .Values.wso2.deployment.persistentRuntimeArtifacts.storageClass }}
 
 ---
 apiVersion: v1

@@ -62,6 +62,10 @@ spec:
         env:
         - name: PROFILE_NAME
           value: gateway-worker
+        - name: JVM_MEM_OPTS
+          value: "-Xms256m -Xmx1024m"
+        - name: JAVA_OPTS
+          value: "-verbose:gc"
         - name: NODE_IP
           valueFrom:
             fieldRef:
@@ -89,11 +93,11 @@ spec:
               command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/wso2server.sh stop']
         resources:
           requests:
-            memory: {{ .Values.wso2.deployment.am.resources.requests.memory }}
-            cpu: {{ .Values.wso2.deployment.am.resources.requests.cpu }}
+            memory: {{ .Values.wso2.deployment.am..gateway.resources.requests.memory }}
+            cpu: {{ .Values.wso2.deployment.am.gateway.resources.requests.cpu }}
           limits:
-            memory: {{ .Values.wso2.deployment.am.resources.limits.memory }}
-            cpu: {{ .Values.wso2.deployment.am.resources.limits.cpu }}
+            memory: {{ .Values.wso2.deployment.am.gateway.resources.limits.memory }}
+            cpu: {{ .Values.wso2.deployment.am.gateway.resources.limits.cpu }}
         securityContext:
           runAsUser: 802
         ports:

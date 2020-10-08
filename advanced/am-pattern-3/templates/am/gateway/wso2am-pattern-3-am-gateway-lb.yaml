@@ -5,6 +5,7 @@ metadata:
   namespace : {{ .Release.Namespace }}
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: alb
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
     #kubernetes.io/ingress.class: alb
     #alb.ingress.kubernetes.io/scheme: internet-facing
     #alb.ingress.kubernetes.io/backend-protocol: "HTTPS"

@@ -30,7 +30,7 @@ wso2:
     # Persisted and shared runtime artifacts for API Manager
     # See official documentation (from https://apim.docs.wso2.com/en/latest/install-and-setup/setup/reference/common-runtime-and-configuration-artifacts/#persistent-runtime-artifacts)
     persistentRuntimeArtifacts:
-      server: "fs-24081505.efs.ap-northeast-1.amazonaws.com"
+      
       # Kubernetes Storage Class to be used to dynamically provision the relevant Persistent Volumes
       # Only persistent storage solutions supporting ReadWriteMany access mode are applicable (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes)
       # Defaults to Kubernetes Storage Class generated using the NFS Server Provisioner (https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner)
@@ -56,13 +56,13 @@ wso2:
           solrIndexedData: 50M
 
     am:
-      #nfs server 
-      nfs: "fs-24081505.efs.ap-northeast-1.amazonaws.com"
-
+      # EFS
+      nfs: "fs-25c0dd04.efs.ap-northeast-1.amazonaws.com"
+      
       # Container image configurations
       # If a custom image must be used, uncomment 'dockerRegistry' and provide its value
-      # dockerRegistry: ""
-      imageName: "wso2am"
+      dockerRegistry: "411396279728.dkr.ecr.ap-northeast-1.amazonaws.com/wso2"
+      imageName: "wso2-wso2am"
       imageTag: "3.1.0"
       # Refer to the Kubernetes documentation on updating images (https://kubernetes.io/docs/concepts/containers/images/#updating-images)
       imagePullPolicy: Always
@@ -92,15 +92,12 @@ wso2:
 
       # API Manager's Gateway specific configurations
       gateway:
-        #the EFS for shared data
-        #nfs: "fs-e9dec3c8.efs.ap-northeast-1.amazonaws.com"
-        nfs: "fs-24081505.efs.ap-northeast-1.amazonaws.com"
         # Hostname for Gateway profile
         #hostname: "gateway.am.karanashi.io"
         hostname: "wso2am-pattern-3-am-gateway-lb.wso2apim.svc.cluster.local"
 
         # Number of deployment replicas
-        replicas: 3
+        replicas: 1
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:
@@ -109,7 +106,16 @@ wso2:
             maxSurge: 2
             # The maximum number of pods that can be unavailable during the update
             maxUnavailable: 0
-
+        
+        #add resources of gateway independently by lxx 
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "1000m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+                    
         # If the deployment configurations for the Gateway profile of WSO2 API Manager v3.1.0 (<WSO2AM>/repository/conf/deployment.toml),
         # add the customized configuration file under (wso2 -> deployment -> am -> gateway -> config -> deployment.toml)
       #        config:
@@ -119,7 +125,8 @@ wso2:
       # API Manager's Key Manager specific configurations
       km:
         # Number of deployment replicas
-        replicas: 2
+        #replicas: 2
+        replicas: 5  # to avoid km becomes bottleneck.
 
         # Kubernetes RollingUpdate strategy configurations
         strategy:
@@ -161,7 +168,6 @@ wso2:
       tm:
         #the EFS for shared data
         nfs: "fs-82d5c8a3.efs.ap-northeast-1.amazonaws.com"
-
         # If the deployment configurations for the Traffic Manager profile of WSO2 API Manager v3.1.0 (<WSO2AM>/repository/conf/deployment.toml),
         # add the customized configuration file under (wso2 -> deployment -> am -> tm -> instanceOne -> config -> deployment.toml)
         config: ""
